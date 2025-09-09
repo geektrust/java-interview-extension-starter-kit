@@ -5,7 +5,7 @@ import java.util.*;
  * This is the driver code. Don't change it!!!
  ***********************************************
  */
-public class TaskTracker {
+public class TravelCost {
 
     public static void main(String[] args) {
         /*

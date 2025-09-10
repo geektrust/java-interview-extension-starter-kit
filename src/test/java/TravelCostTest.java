@@ -42,7 +42,7 @@ public class TravelCostTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
 
-        TaskTracker.main(new String[]{input});
+        TravelCost.main(new String[]{input});
 
         return outContent.toString().trim();
     }

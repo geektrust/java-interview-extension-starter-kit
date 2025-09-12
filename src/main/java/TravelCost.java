@@ -17,13 +17,18 @@ public class TravelCost {
 
     private static void handle(String input) {
         String[] inputList = input.trim().split(" ");
+        if (inputList.length < 3) {
+            System.out.println("Invalid input. Format: <numTravelers> <destination> <tripType>");
+            return;
+        }
+
         int numTravelers = Integer.parseInt(inputList[0]);
         String destinationName = inputList[1];
         String tripTypeStr = inputList[2];
 
         try {
             Destination destination = Destination.of(destinationName);
-            TripType tripType = TripType.fromString(tripTypeStr);
+            TripType tripType = TripType.of(tripTypeStr);
 
             TravelCostCalculator calculator = new TravelCostCalculator();
             int totalCost = calculator.calculate(numTravelers, destination, tripType);
@@ -37,12 +42,12 @@ public class TravelCost {
 
 /* ---------------- Domain Models ---------------- */
 
-enum TripType {
-    ONE_WAY(1), ROUND(2);
-
+class TripType {
+    private final String name;
     private final int multiplier;
 
-    TripType(int multiplier) {
+    private TripType(String name, int multiplier) {
+        this.name = name;
         this.multiplier = multiplier;
     }
 
@@ -50,14 +55,15 @@ enum TripType {
         return multiplier;
     }
 
-    public static TripType fromString(String type) {
+    public String getName() {
+        return name;
+    }
+
+    public static TripType of(String type) {
         switch (type.toLowerCase()) {
-            case "one-way":
-                return ONE_WAY;
-            case "round":
-                return ROUND;
-            default:
-                throw new IllegalArgumentException("INVALID TRIP TYPE");
+            case "one-way": return new TripType("one-way", 1);
+            case "round":   return new TripType("round", 2);
+            default: throw new IllegalArgumentException("INVALID TRIP TYPE");
         }
     }
 }
@@ -80,6 +86,10 @@ class Destination {
 
     public int getBaseCost() {
         return baseCost;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public static Destination of(String name) {
